@@ -1,0 +1,401 @@
+Crée un site e-commerce professionnel et moderne appelé "Black Store".
+
+
+
+LANGUE:
+
+
+
+Toute l’interface doit être en français.
+
+OBJECTIF:
+
+
+
+Plateforme e-commerce complète avec vente directe + produits affiliés (Amazon, etc.).
+
+========================
+
+
+
+EXPÉRIENCE UTILISATEUR
+
+========================
+
+
+
+Design premium (thème sombre, élégant)
+
+
+
+Navigation simple et rapide
+
+
+
+Mobile-first (parfait sur téléphone)
+
+
+
+Pages:
+
+
+
+Accueil (produits populaires, promos, catégories)
+
+
+
+Boutique (catalogue avec filtres)
+
+
+
+Produit (détails complets)
+
+
+
+Panier
+
+
+
+Paiement
+
+
+
+Compte utilisateur
+
+
+
+Contact
+
+
+
+À propos
+
+
+
+========================
+
+
+
+FONCTIONNALITÉS CLÉS
+
+========================
+
+
+
+🛒 Panier intelligent:
+
+
+
+Sauvegarde automatique (même si l’utilisateur quitte)
+
+
+
+Mise à jour dynamique des prix
+
+
+
+Calcul taxes + livraison
+
+
+
+💳 Paiements:
+
+
+
+MasterCard
+
+
+
+PayPal
+
+
+
+MonCash
+
+
+
+NatCash
+
+
+
+Gestion des paiements sécurisés
+
+
+
+🔗 Produits affiliés:
+
+
+
+Champ "lien externe"
+
+
+
+Redirection automatique si produit externe
+
+
+
+Badge "Produit partenaire"
+
+
+
+👤 Comptes utilisateurs:
+
+
+
+Inscription / Connexion
+
+
+
+Historique des commandes
+
+
+
+Suivi des commandes
+
+
+
+Sauvegarde d’adresses
+
+
+
+🔍 Recherche avancée:
+
+
+
+Recherche instantanée
+
+
+
+Filtres (prix, popularité, catégorie)
+
+
+
+========================
+
+
+
+ADMIN (TRÈS IMPORTANT)
+
+========================
+
+
+
+Dashboard complet:
+
+
+
+Ajouter / modifier / supprimer produits
+
+
+
+Upload images
+
+
+
+Gestion stock (quantité disponible)
+
+
+
+Activer/désactiver produit
+
+
+
+📦 Gestion commandes:
+
+
+
+Voir commandes
+
+
+
+Changer statut (en attente, payé, livré)
+
+
+
+Notifications admin
+
+
+
+📊 Statistiques:
+
+
+
+Ventes totales
+
+
+
+Produits populaires
+
+
+
+Revenus
+
+
+
+🎯 Marketing:
+
+
+
+Ajouter codes promo
+
+
+
+Réductions (% ou montant)
+
+
+
+Bannières personnalisées
+
+
+
+========================
+
+
+
+SÉCURITÉ (ESSENTIEL)
+
+========================
+
+
+
+Authentification sécurisée
+
+
+
+Protection des données utilisateur
+
+
+
+Validation des paiements
+
+
+
+Protection contre spam / attaques
+
+
+
+========================
+
+
+
+DESIGN & UX
+
+========================
+
+
+
+Animations fluides
+
+
+
+Chargement rapide (lazy loading images)
+
+
+
+Mode sombre
+
+
+
+Interface moderne type Apple / Shopify
+
+
+
+========================
+
+
+
+FONCTIONNALITÉS PRO (TRÈS IMPORTANT)
+
+========================
+
+
+
+📦 Livraison:
+
+
+
+Calcul frais livraison
+
+
+
+Options (standard, express)
+
+
+
+🔔 Notifications:
+
+
+
+Email après commande
+
+
+
+Confirmation paiement
+
+
+
+Statut commande
+
+
+
+⭐ Avis clients:
+
+
+
+Notation produits
+
+
+
+Commentaires
+
+
+
+❤️ Favoris:
+
+
+
+Ajouter produits en wishlist
+
+🌍 Multi-devise:
+
+
+
+Afficher prix en HTG / USD
+
+📱 PWA:
+
+
+
+Site installable comme app mobile
+
+========================
+
+
+
+TECH STACK
+
+========================
+
+
+
+Frontend: React ou HTML/CSS/JS
+
+
+
+Backend: Firebase ou Node.js
+
+
+
+Database: Firebase / MongoDB
+
+
+
+========================
+
+
+
+OBJECTIF FINAL:
+
+
+
+Créer un site e-commerce complet, moderne, sécurisé avec firebase.
