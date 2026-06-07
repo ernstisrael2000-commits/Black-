@@ -1,18 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, Eye, EyeOff, UserPlus } from 'lucide-react';
 import { register, loginWithGoogle } from '../firebase/auth';
+import { useUIStore } from '../store/uiStore';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import toast from 'react-hot-toast';
 
 export default function Register() {
   const navigate = useNavigate();
+  const theme = useUIStore((s) => s.theme);
   const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove('theme-dark', 'theme-light');
+    root.classList.add(`theme-${theme}`);
+  }, [theme]);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,33 +56,38 @@ export default function Register() {
       await loginWithGoogle();
       toast.success('Compte créé avec succès !');
       navigate('/');
-    } catch {
-      toast.error('Erreur avec Google');
+    } catch (err: any) {
+      const msg = err.code === 'auth/unauthorized-domain'
+        ? 'Domaine non autorisé — ajoutez ce domaine dans Firebase Console > Authentication > Authorized domains'
+        : 'Erreur avec Google. Réessayez.';
+      toast.error(msg);
     } finally {
       setGoogleLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-16 bg-[#0A0A0A]">
+    <div className="min-h-screen flex items-center justify-center px-4 py-16 bg-theme">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-[#C9A84C] rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <span className="text-black font-bold text-3xl font-display">B</span>
-          </div>
-          <h1 className="font-display text-2xl font-bold text-white mb-1">Créer un compte</h1>
-          <p className="text-gray-500 text-sm">Rejoignez la communauté Black Store</p>
+          <Link to="/">
+            <div className="w-16 h-16 bg-[#C9A84C] rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span className="text-black font-bold text-3xl font-display">B</span>
+            </div>
+          </Link>
+          <h1 className="font-display text-2xl font-bold text-theme mb-1">Créer un compte</h1>
+          <p className="text-theme-mute text-sm">Rejoignez la communauté Black Store</p>
         </div>
 
-        <div className="bg-[#111] border border-[#1F1F1F] rounded-3xl p-8">
+        <div className="bg-theme-card border border-theme rounded-3xl p-8">
           <button
             onClick={handleGoogle}
             disabled={googleLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-[#1F1F1F] text-white text-sm font-medium hover:bg-white/5 transition-colors disabled:opacity-50 mb-5"
+            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-theme text-theme text-sm font-medium hover:bg-theme-hover transition-colors disabled:opacity-50 mb-5"
             data-testid="button-google-register"
           >
             <svg width="18" height="18" viewBox="0 0 24 24">
@@ -83,13 +96,13 @@ export default function Register() {
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
             </svg>
-            Continuer avec Google
+            {googleLoading ? 'Connexion...' : 'Continuer avec Google'}
           </button>
 
           <div className="flex items-center gap-3 mb-5">
-            <div className="flex-1 h-px bg-[#1F1F1F]" />
-            <span className="text-xs text-gray-600">ou</span>
-            <div className="flex-1 h-px bg-[#1F1F1F]" />
+            <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
+            <span className="text-xs text-theme-mute">ou</span>
+            <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
           </div>
 
           <form onSubmit={handleRegister} className="space-y-4">
@@ -140,7 +153,7 @@ export default function Register() {
           </form>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-theme-mute mt-6">
           Déjà un compte ?{' '}
           <Link to="/connexion" className="text-[#C9A84C] hover:underline font-medium">
             Se connecter

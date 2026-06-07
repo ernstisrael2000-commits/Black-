@@ -22,7 +22,7 @@ export const useUIStore = create<UIStore>()(
   persist(
     (set, get) => ({
       currency: 'HTG',
-      theme: 'dark',
+      theme: 'light',
       isSearchOpen: false,
       isMobileMenuOpen: false,
       isCartOpen: false,
@@ -43,7 +43,7 @@ export const useUIStore = create<UIStore>()(
     }),
     {
       name: 'black-store-ui',
-      partializer: (state) => ({ currency: state.currency, theme: state.theme }),
+      partialize: (state) => ({ currency: state.currency, theme: state.theme }),
     }
   )
 );

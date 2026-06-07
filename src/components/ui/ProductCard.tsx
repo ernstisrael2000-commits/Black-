@@ -53,9 +53,9 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       data-testid={`card-product-${product.id}`}
     >
       <Link to={`/produit/${product.id}`} className="block">
-        <div className="bg-[#111] border border-[#1F1F1F] rounded-2xl overflow-hidden card-hover">
+        <div className="bg-theme-card border border-theme rounded-2xl overflow-hidden card-hover">
           {/* Image */}
-          <div className="relative aspect-square overflow-hidden bg-[#141414]">
+          <div className="relative aspect-square overflow-hidden bg-theme-surface">
             {!imgError ? (
               <img
                 src={product.images[0]}
@@ -65,7 +65,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                 loading="lazy"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-600">
+              <div className="w-full h-full flex items-center justify-center text-theme-mute">
                 <ShoppingCart size={48} />
               </div>
             )}
@@ -113,14 +113,14 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
 
           {/* Info */}
           <div className="p-4">
-            <p className="text-xs text-gray-500 mb-1 capitalize">{product.category}</p>
-            <h3 className="font-semibold text-white text-sm line-clamp-2 mb-2 leading-tight">
+            <p className="text-xs text-theme-mute mb-1 capitalize">{product.category}</p>
+            <h3 className="font-semibold text-theme text-sm line-clamp-2 mb-2 leading-tight">
               {product.name}
             </h3>
 
             <div className="flex items-center gap-1.5 mb-3">
               <StarRating rating={product.rating} size={12} />
-              <span className="text-xs text-gray-500">({product.reviewCount})</span>
+              <span className="text-xs text-theme-mute">({product.reviewCount})</span>
             </div>
 
             <div className="flex items-center justify-between">
@@ -129,7 +129,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                   {formatPrice(price, currency)}
                 </span>
                 {originalPrice && (
-                  <span className="text-gray-500 text-xs line-through ml-2">
+                  <span className="text-theme-mute text-xs line-through ml-2">
                     {formatPrice(originalPrice, currency)}
                   </span>
                 )}

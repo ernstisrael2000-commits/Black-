@@ -20,7 +20,6 @@ const banners = [
     title: 'Nouveautés Tech 2024',
     subtitle: 'Les derniers smartphones et gadgets premium',
     tag: 'Collection Exclusive',
-    gradient: 'from-[#C9A84C]/20 to-transparent',
     image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800',
     link: '/boutique?category=electronique',
   },
@@ -28,7 +27,6 @@ const banners = [
     title: 'Mode Premium',
     subtitle: 'Sneakers et vêtements de marque authentiques',
     tag: 'Nouveaux arrivages',
-    gradient: 'from-blue-600/20 to-transparent',
     image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
     link: '/boutique?category=mode',
   },
@@ -40,7 +38,7 @@ export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
-    seedDemoProducts().catch(console.error);
+    seedDemoProducts().catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -66,7 +64,7 @@ export default function Home() {
                 alt={banner.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
             </div>
           </motion.div>
         ))}
@@ -80,13 +78,13 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               className="max-w-xl"
             >
-              <span className="inline-block px-3 py-1.5 bg-[#C9A84C]/20 border border-[#C9A84C]/30 text-[#C9A84C] text-xs font-semibold rounded-full mb-4">
+              <span className="inline-block px-3 py-1.5 bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#C9A84C] text-xs font-semibold rounded-full mb-4">
                 {banners[activeSlide].tag}
               </span>
               <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                 {banners[activeSlide].title}
               </h1>
-              <p className="text-lg text-gray-400 mb-8">
+              <p className="text-lg text-white/70 mb-8">
                 {banners[activeSlide].subtitle}
               </p>
               <div className="flex flex-wrap gap-3">
@@ -99,7 +97,7 @@ export default function Home() {
                 </Link>
                 <Link
                   to="/boutique"
-                  className="px-8 py-3.5 rounded-xl text-base font-semibold border border-white/20 text-white hover:bg-white/5 transition-colors"
+                  className="px-8 py-3.5 rounded-xl text-base font-semibold border border-white/30 text-white hover:bg-white/10 transition-colors"
                 >
                   Tout voir
                 </Link>
@@ -115,18 +113,15 @@ export default function Home() {
               key={i}
               onClick={() => setActiveSlide(i)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === activeSlide ? 'w-8 bg-[#C9A84C]' : 'w-2 bg-white/30'
+                i === activeSlide ? 'w-8 bg-[#C9A84C]' : 'w-2 bg-white/40'
               }`}
             />
           ))}
         </div>
-
-        {/* Stats bar */}
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#0A0A0A] to-transparent h-16" />
       </section>
 
       {/* Stats */}
-      <section className="py-6 border-b border-[#1F1F1F]">
+      <section className="py-6 border-b border-theme">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -137,7 +132,7 @@ export default function Home() {
             ].map((stat, i) => (
               <div key={i}>
                 <p className="text-2xl font-bold text-gold-gradient">{stat.value}</p>
-                <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
+                <p className="text-sm text-theme-mute mt-1">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -150,9 +145,9 @@ export default function Home() {
           <div className="flex items-end justify-between mb-8">
             <div>
               <p className="text-[#C9A84C] text-sm font-medium mb-1">Nos catégories</p>
-              <h2 className="font-display text-3xl font-bold text-white">Parcourez par catégorie</h2>
+              <h2 className="font-display text-3xl font-bold text-theme">Parcourez par catégorie</h2>
             </div>
-            <Link to="/boutique" className="text-sm text-gray-400 hover:text-[#C9A84C] transition-colors flex items-center gap-1">
+            <Link to="/boutique" className="text-sm text-theme-sec hover:text-[#C9A84C] transition-colors flex items-center gap-1">
               Voir tout <ArrowRight size={14} />
             </Link>
           </div>
@@ -166,12 +161,12 @@ export default function Home() {
               >
                 <Link
                   to={`/boutique?category=${cat.slug}`}
-                  className="block bg-[#111] border border-[#1F1F1F] rounded-2xl p-4 text-center card-hover group"
+                  className="block bg-theme-card border border-theme rounded-2xl p-4 text-center card-hover group"
                   data-testid={`link-category-${cat.slug}`}
                 >
                   <div className="text-4xl mb-3">{cat.icon}</div>
-                  <p className="font-semibold text-white text-sm group-hover:text-[#C9A84C] transition-colors">{cat.name}</p>
-                  <p className="text-xs text-gray-600 mt-1">{cat.count}</p>
+                  <p className="font-semibold text-theme text-sm group-hover:text-[#C9A84C] transition-colors">{cat.name}</p>
+                  <p className="text-xs text-theme-mute mt-1">{cat.count}</p>
                 </Link>
               </motion.div>
             ))}
@@ -180,16 +175,16 @@ export default function Home() {
       </section>
 
       {/* Featured products */}
-      <section className="py-16 bg-[#080808]">
+      <section className="py-16 bg-theme-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-8">
             <div>
               <p className="text-[#C9A84C] text-sm font-medium mb-1 flex items-center gap-1.5">
                 <Star size={14} /> Sélection premium
               </p>
-              <h2 className="font-display text-3xl font-bold text-white">Produits vedettes</h2>
+              <h2 className="font-display text-3xl font-bold text-theme">Produits vedettes</h2>
             </div>
-            <Link to="/boutique?sort=newest" className="text-sm text-gray-400 hover:text-[#C9A84C] transition-colors flex items-center gap-1">
+            <Link to="/boutique?sort=newest" className="text-sm text-theme-sec hover:text-[#C9A84C] transition-colors flex items-center gap-1">
               Voir tout <ArrowRight size={14} />
             </Link>
           </div>
@@ -198,7 +193,7 @@ export default function Home() {
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="rounded-2xl overflow-hidden">
                   <div className="aspect-square skeleton" />
-                  <div className="p-4 bg-[#111] space-y-2">
+                  <div className="p-4 bg-theme-card space-y-2">
                     <div className="h-4 skeleton rounded-lg" />
                     <div className="h-3 skeleton rounded-lg w-2/3" />
                     <div className="h-5 skeleton rounded-lg w-1/2" />
@@ -219,8 +214,8 @@ export default function Home() {
       {/* Promo banner */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#1a1200] to-[#111] border border-[#C9A84C]/20 p-8 sm:p-12">
-            <div className="absolute inset-0 opacity-10">
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#C9A84C]/15 to-[#C9A84C]/5 border border-[#C9A84C]/20 p-8 sm:p-12">
+            <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 right-0 w-96 h-96 bg-[#C9A84C] rounded-full filter blur-3xl" />
             </div>
             <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -228,10 +223,10 @@ export default function Home() {
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#C9A84C]/20 border border-[#C9A84C]/30 rounded-full text-[#C9A84C] text-xs font-semibold mb-4">
                   <Zap size={12} /> Offre limitée
                 </div>
-                <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-3">
+                <h2 className="font-display text-3xl sm:text-4xl font-bold text-theme mb-3">
                   -20% sur la mode
                 </h2>
-                <p className="text-gray-400 text-lg">
+                <p className="text-theme-sec text-lg">
                   Profitez de nos promotions exclusives sur toute la collection mode.
                 </p>
               </div>
@@ -248,16 +243,16 @@ export default function Home() {
       </section>
 
       {/* Popular products */}
-      <section className="py-16 bg-[#080808]">
+      <section className="py-16 bg-theme-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-8">
             <div>
               <p className="text-[#C9A84C] text-sm font-medium mb-1 flex items-center gap-1.5">
                 <TrendingUp size={14} /> Les plus achetés
               </p>
-              <h2 className="font-display text-3xl font-bold text-white">Tendances du moment</h2>
+              <h2 className="font-display text-3xl font-bold text-theme">Tendances du moment</h2>
             </div>
-            <Link to="/boutique?sort=popular" className="text-sm text-gray-400 hover:text-[#C9A84C] transition-colors flex items-center gap-1">
+            <Link to="/boutique?sort=popular" className="text-sm text-theme-sec hover:text-[#C9A84C] transition-colors flex items-center gap-1">
               Voir tout <ArrowRight size={14} />
             </Link>
           </div>
@@ -266,7 +261,7 @@ export default function Home() {
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="rounded-2xl overflow-hidden">
                   <div className="aspect-square skeleton" />
-                  <div className="p-4 bg-[#111] space-y-2">
+                  <div className="p-4 bg-theme-card space-y-2">
                     <div className="h-4 skeleton rounded-lg" />
                     <div className="h-3 skeleton rounded-lg w-2/3" />
                   </div>
@@ -309,13 +304,13 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-[#111] border border-[#1F1F1F] rounded-2xl p-6 text-center"
+                className="bg-theme-card border border-theme rounded-2xl p-6 text-center"
               >
                 <div className="w-14 h-14 bg-[#C9A84C]/10 rounded-2xl flex items-center justify-center mx-auto mb-4 text-[#C9A84C]">
                   {feat.icon}
                 </div>
-                <h3 className="font-semibold text-white mb-2">{feat.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{feat.desc}</p>
+                <h3 className="font-semibold text-theme mb-2">{feat.title}</h3>
+                <p className="text-sm text-theme-mute leading-relaxed">{feat.desc}</p>
               </motion.div>
             ))}
           </div>

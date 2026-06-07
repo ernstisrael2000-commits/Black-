@@ -3,9 +3,9 @@ import { Share2, Camera, MessageCircle, Mail, Phone, MapPin, ShieldCheck, Truck,
 
 export default function Footer() {
   return (
-    <footer className="bg-[#080808] border-t border-[#1F1F1F] mt-20">
+    <footer className="bg-theme-surface border-t border-theme mt-20">
       {/* Trust badges */}
-      <div className="border-b border-[#1F1F1F]">
+      <div className="border-b border-theme">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
@@ -17,8 +17,8 @@ export default function Footer() {
               <div key={i} className="flex items-start gap-3">
                 <div className="text-[#C9A84C] shrink-0 mt-0.5">{item.icon}</div>
                 <div>
-                  <p className="font-semibold text-white text-sm">{item.title}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
+                  <p className="font-semibold text-theme text-sm">{item.title}</p>
+                  <p className="text-xs text-theme-mute mt-0.5">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -37,7 +37,7 @@ export default function Footer() {
               </div>
               <span className="font-display font-bold text-xl text-gold-gradient">Black Store</span>
             </div>
-            <p className="text-sm text-gray-500 leading-relaxed mb-6">
+            <p className="text-sm text-theme-mute leading-relaxed mb-6">
               Votre boutique premium en ligne. Produits authentiques, service d'excellence et expérience d'achat incomparable.
             </p>
             <div className="flex gap-3">
@@ -49,7 +49,7 @@ export default function Footer() {
                 <a
                   key={i}
                   href={social.href}
-                  className="w-9 h-9 rounded-xl bg-[#1A1A1A] border border-[#1F1F1F] flex items-center justify-center text-gray-400 hover:text-[#C9A84C] hover:border-[#C9A84C]/30 transition-colors"
+                  className="w-9 h-9 rounded-xl bg-theme-hover border border-theme flex items-center justify-center text-theme-sec hover:text-[#C9A84C] hover:border-[#C9A84C]/30 transition-colors"
                 >
                   {social.icon}
                 </a>
@@ -59,7 +59,7 @@ export default function Footer() {
 
           {/* Navigation */}
           <div>
-            <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wider">Navigation</h4>
+            <h4 className="font-semibold text-theme text-sm mb-4 uppercase tracking-wider">Navigation</h4>
             <ul className="space-y-2.5">
               {[
                 { label: 'Accueil', to: '/' },
@@ -70,10 +70,7 @@ export default function Footer() {
                 { label: 'À propos', to: '/a-propos' },
               ].map((link) => (
                 <li key={link.to}>
-                  <Link
-                    to={link.to}
-                    className="text-sm text-gray-500 hover:text-[#C9A84C] transition-colors"
-                  >
+                  <Link to={link.to} className="text-sm text-theme-mute hover:text-[#C9A84C] transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -83,7 +80,7 @@ export default function Footer() {
 
           {/* Categories */}
           <div>
-            <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wider">Catégories</h4>
+            <h4 className="font-semibold text-theme text-sm mb-4 uppercase tracking-wider">Catégories</h4>
             <ul className="space-y-2.5">
               {[
                 { label: 'Électronique', slug: 'electronique' },
@@ -94,10 +91,7 @@ export default function Footer() {
                 { label: 'Sport', slug: 'sport' },
               ].map((cat) => (
                 <li key={cat.slug}>
-                  <Link
-                    to={`/boutique?category=${cat.slug}`}
-                    className="text-sm text-gray-500 hover:text-[#C9A84C] transition-colors"
-                  >
+                  <Link to={`/boutique?category=${cat.slug}`} className="text-sm text-theme-mute hover:text-[#C9A84C] transition-colors">
                     {cat.label}
                   </Link>
                 </li>
@@ -107,21 +101,21 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wider">Contact</h4>
+            <h4 className="font-semibold text-theme text-sm mb-4 uppercase tracking-wider">Contact</h4>
             <ul className="space-y-3">
               {[
                 { icon: <MapPin size={15} />, text: 'Port-au-Prince, Haïti' },
                 { icon: <Phone size={15} />, text: '+509 3000-0000' },
                 { icon: <Mail size={15} />, text: 'contact@blackstore.ht' },
               ].map((item, i) => (
-                <li key={i} className="flex items-center gap-2.5 text-sm text-gray-500">
+                <li key={i} className="flex items-center gap-2.5 text-sm text-theme-mute">
                   <span className="text-[#C9A84C] shrink-0">{item.icon}</span>
                   {item.text}
                 </li>
               ))}
             </ul>
             <div className="mt-6">
-              <h5 className="text-xs text-gray-600 uppercase tracking-wider mb-3">Newsletter</h5>
+              <h5 className="text-xs text-theme-mute uppercase tracking-wider mb-3">Newsletter</h5>
               <div className="flex gap-2">
                 <input
                   type="email"
@@ -139,14 +133,14 @@ export default function Footer() {
       </div>
 
       {/* Bottom */}
-      <div className="border-t border-[#1F1F1F]">
+      <div className="border-t border-theme">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-theme-mute">
             © 2024 Black Store. Tous droits réservés.
           </p>
           <div className="flex items-center gap-4">
             {['Confidentialité', 'Conditions', 'Cookies'].map((item) => (
-              <a key={item} href="#" className="text-xs text-gray-600 hover:text-gray-400 transition-colors">
+              <a key={item} href="#" className="text-xs text-theme-mute hover:text-theme-sec transition-colors">
                 {item}
               </a>
             ))}

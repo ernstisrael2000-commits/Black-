@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ShoppingCart, Search, Heart, User, Menu, X, ChevronDown,
-  LogOut, Settings, Package, Shield, ArrowLeftRight
+  LogOut, Package, Shield, ArrowLeftRight, Sun, Moon
 } from 'lucide-react';
 import { useCartStore } from '../../store/cartStore';
 import { useWishlistStore } from '../../store/wishlistStore';
@@ -41,7 +41,7 @@ export default function Navbar() {
   const itemCount = useCartStore((s) => s.itemCount());
   const wishlistCount = useWishlistStore((s) => s.items.length);
   const { user, firebaseUser } = useAuthStore();
-  const { currency, toggleCurrency } = useUIStore();
+  const { currency, toggleCurrency, theme, toggleTheme } = useUIStore();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -65,7 +65,10 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-xl border-b border-[#1F1F1F]">
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-theme"
+        style={{ background: 'var(--nav-bg)' }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -89,7 +92,7 @@ export default function Navbar() {
                     <Link
                       to={link.to}
                       className={`flex items-center gap-1 text-sm font-medium transition-colors ${
-                        location.pathname === link.to ? 'text-[#C9A84C]' : 'text-gray-300 hover:text-white'
+                        location.pathname === link.to ? 'text-[#C9A84C]' : 'text-theme-sec hover:text-theme'
                       }`}
                     >
                       {link.label}
@@ -101,13 +104,13 @@ export default function Navbar() {
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 8 }}
-                          className="absolute top-full left-0 mt-2 w-48 bg-[#111] border border-[#1F1F1F] rounded-xl shadow-2xl overflow-hidden"
+                          className="absolute top-full left-0 mt-2 w-48 bg-theme-card border border-theme rounded-xl shadow-2xl overflow-hidden"
                         >
                           {categories.map((cat) => (
                             <Link
                               key={cat.slug}
                               to={`/boutique?category=${cat.slug}`}
-                              className="block px-4 py-2.5 text-sm text-gray-300 hover:bg-[#1A1A1A] hover:text-[#C9A84C] transition-colors"
+                              className="block px-4 py-2.5 text-sm text-theme-sec hover:bg-theme-hover hover:text-[#C9A84C] transition-colors"
                             >
                               {cat.label}
                             </Link>
@@ -121,7 +124,7 @@ export default function Navbar() {
                     key={link.to}
                     to={link.to}
                     className={`text-sm font-medium transition-colors ${
-                      location.pathname === link.to ? 'text-[#C9A84C]' : 'text-gray-300 hover:text-white'
+                      location.pathname === link.to ? 'text-[#C9A84C]' : 'text-theme-sec hover:text-theme'
                     }`}
                     data-testid={`link-nav-${link.label}`}
                   >
@@ -136,17 +139,26 @@ export default function Navbar() {
               {/* Currency toggle */}
               <button
                 onClick={toggleCurrency}
-                className="hidden sm:flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                className="hidden sm:flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
                 data-testid="button-toggle-currency"
               >
                 <ArrowLeftRight size={12} />
                 {currency}
               </button>
 
+              {/* Theme toggle */}
+              <button
+                onClick={toggleTheme}
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
+                title={theme === 'dark' ? 'Thème clair' : 'Thème sombre'}
+              >
+                {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+              </button>
+
               {/* Search */}
               <button
                 onClick={() => { setIsSearchOpen(true); setTimeout(() => searchRef.current?.focus(), 100); }}
-                className="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
                 data-testid="button-search"
               >
                 <Search size={18} />
@@ -155,7 +167,7 @@ export default function Navbar() {
               {/* Wishlist */}
               <Link
                 to="/favoris"
-                className="relative w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                className="relative w-9 h-9 rounded-xl flex items-center justify-center text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
                 data-testid="link-wishlist"
               >
                 <Heart size={18} />
@@ -169,7 +181,7 @@ export default function Navbar() {
               {/* Cart */}
               <Link
                 to="/panier"
-                className="relative w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                className="relative w-9 h-9 rounded-xl flex items-center justify-center text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
                 data-testid="link-cart"
               >
                 <ShoppingCart size={18} />
@@ -202,28 +214,28 @@ export default function Navbar() {
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
-                        className="absolute right-0 top-full mt-2 w-48 bg-[#111] border border-[#1F1F1F] rounded-xl shadow-2xl overflow-hidden z-50"
+                        className="absolute right-0 top-full mt-2 w-52 bg-theme-card border border-theme rounded-xl shadow-2xl overflow-hidden z-50"
                       >
-                        <div className="px-4 py-3 border-b border-[#1F1F1F]">
-                          <p className="text-sm font-semibold text-white truncate">
+                        <div className="px-4 py-3 border-b border-theme">
+                          <p className="text-sm font-semibold text-theme truncate">
                             {firebaseUser.displayName || 'Utilisateur'}
                           </p>
-                          <p className="text-xs text-gray-500 truncate">{firebaseUser.email}</p>
+                          <p className="text-xs text-theme-mute truncate">{firebaseUser.email}</p>
                         </div>
-                        <Link to="/compte" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-[#1A1A1A] hover:text-white transition-colors">
+                        <Link to="/compte" className="flex items-center gap-3 px-4 py-2.5 text-sm text-theme-sec hover:bg-theme-hover hover:text-theme transition-colors">
                           <User size={15} /> Mon compte
                         </Link>
-                        <Link to="/compte/commandes" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-[#1A1A1A] hover:text-white transition-colors">
+                        <Link to="/compte/commandes" className="flex items-center gap-3 px-4 py-2.5 text-sm text-theme-sec hover:bg-theme-hover hover:text-theme transition-colors">
                           <Package size={15} /> Mes commandes
                         </Link>
                         {user?.isAdmin && (
-                          <Link to="/admin" className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#C9A84C] hover:bg-[#1A1A1A] transition-colors">
+                          <Link to="/admin" className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#C9A84C] hover:bg-theme-hover transition-colors">
                             <Shield size={15} /> Administration
                           </Link>
                         )}
                         <button
                           onClick={handleLogout}
-                          className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-400 hover:bg-[#1A1A1A] transition-colors border-t border-[#1F1F1F]"
+                          className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-500 hover:bg-theme-hover transition-colors border-t border-theme"
                           data-testid="button-logout"
                         >
                           <LogOut size={15} /> Déconnexion
@@ -246,7 +258,7 @@ export default function Navbar() {
               {/* Mobile menu */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
                 data-testid="button-mobile-menu"
               >
                 {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -262,11 +274,11 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="border-t border-[#1F1F1F] bg-[#0A0A0A]"
+              className="border-t border-theme bg-theme"
             >
               <form onSubmit={handleSearch} className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex gap-3">
                 <div className="relative flex-1">
-                  <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-theme-mute" />
                   <input
                     ref={searchRef}
                     value={searchQuery}
@@ -282,7 +294,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setIsSearchOpen(false)}
-                  className="px-3 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                  className="px-3 py-3 rounded-xl text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
                 >
                   <X size={18} />
                 </button>
@@ -298,25 +310,25 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-[#1F1F1F] bg-[#0A0A0A]"
+              className="md:hidden border-t border-theme bg-theme"
             >
               <div className="px-4 py-4 flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
-                    className="px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    className="px-4 py-3 rounded-xl text-sm font-medium text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
                   >
                     {link.label}
                   </Link>
                 ))}
-                <div className="border-t border-[#1F1F1F] mt-2 pt-2">
-                  <p className="px-4 py-2 text-xs text-gray-600 uppercase tracking-wider">Catégories</p>
+                <div className="border-t border-theme mt-2 pt-2">
+                  <p className="px-4 py-2 text-xs text-theme-mute uppercase tracking-wider">Catégories</p>
                   {categories.map((cat) => (
                     <Link
                       key={cat.slug}
                       to={`/boutique?category=${cat.slug}`}
-                      className="px-4 py-2.5 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors block"
+                      className="px-4 py-2.5 rounded-xl text-sm text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors block"
                     >
                       {cat.label}
                     </Link>
@@ -330,12 +342,21 @@ export default function Navbar() {
                     Connexion / Inscription
                   </Link>
                 )}
-                <button
-                  onClick={toggleCurrency}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
-                >
-                  <ArrowLeftRight size={14} /> Devise: {currency}
-                </button>
+                <div className="flex items-center gap-2 mt-1">
+                  <button
+                    onClick={toggleCurrency}
+                    className="flex-1 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
+                  >
+                    <ArrowLeftRight size={14} /> Devise: {currency}
+                  </button>
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-theme-sec hover:text-theme hover:bg-theme-hover transition-colors"
+                  >
+                    {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+                    {theme === 'dark' ? 'Clair' : 'Sombre'}
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}

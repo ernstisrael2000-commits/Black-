@@ -8,6 +8,8 @@ import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import toast from 'react-hot-toast';
 
+const CATEGORIES = ['electronique', 'mode', 'beaute', 'informatique', 'maison', 'sport'];
+
 const EMPTY_PRODUCT = {
   name: '', description: '', price: 0, priceUSD: 0, originalPrice: undefined,
   images: [''], category: 'electronique', stock: 0, rating: 0, reviewCount: 0,
@@ -24,7 +26,7 @@ export default function AdminProducts() {
 
   const load = async () => {
     setLoading(true);
-    const result = await getProducts({ sort: 'newest' }, undefined, 50);
+    const result = await getProducts({ sort: 'newest' }, undefined, 100);
     setProducts(result.products);
     setLoading(false);
   };
@@ -55,7 +57,7 @@ export default function AdminProducts() {
       }
       setShowModal(false);
       await load();
-    } catch (err) {
+    } catch {
       toast.error('Erreur lors de la sauvegarde');
     } finally {
       setSaving(false);
@@ -84,8 +86,8 @@ export default function AdminProducts() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="font-display text-2xl font-bold text-white">Produits</h2>
-          <p className="text-gray-500 text-sm">{products.length} produit{products.length !== 1 ? 's' : ''}</p>
+          <h2 className="font-display text-2xl font-bold text-theme">Produits</h2>
+          <p className="text-theme-mute text-sm">{products.length} produit{products.length !== 1 ? 's' : ''}</p>
         </div>
         <Button onClick={openCreate} size="sm" data-testid="button-create-product">
           <Plus size={16} /> Nouveau produit
@@ -94,7 +96,7 @@ export default function AdminProducts() {
 
       {/* Search */}
       <div className="relative mb-5">
-        <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+        <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-theme-mute" />
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -105,55 +107,62 @@ export default function AdminProducts() {
       </div>
 
       {/* Table */}
-      <div className="bg-[#111] border border-[#1F1F1F] rounded-2xl overflow-hidden">
+      <div className="bg-theme-card border border-theme rounded-2xl overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-gray-500">Chargement...</div>
+          <div className="p-8 text-center">
+            <div className="w-6 h-6 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+            <p className="text-theme-mute text-sm">Chargement...</p>
+          </div>
         ) : filtered.length === 0 ? (
-          <div className="p-12 text-center text-gray-500">Aucun produit trouvé</div>
+          <div className="p-12 text-center text-theme-mute">Aucun produit trouvé</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[#1F1F1F]">
+                <tr className="border-b border-theme">
                   {['Produit', 'Catégorie', 'Prix', 'Stock', 'Statut', 'Actions'].map((h) => (
-                    <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-theme-mute uppercase tracking-wider">
                       {h}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1F1F1F]">
-                {filtered.map((product) => (
-                  <tr key={product.id} className="hover:bg-[#1A1A1A] transition-colors" data-testid={`product-row-${product.id}`}>
+              <tbody>
+                {filtered.map((product, idx) => (
+                  <tr
+                    key={product.id}
+                    className={`hover:bg-theme-hover transition-colors ${idx < filtered.length - 1 ? 'border-b border-theme' : ''}`}
+                    data-testid={`product-row-${product.id}`}
+                  >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl overflow-hidden bg-[#141414] shrink-0">
+                        <div className="w-10 h-10 rounded-xl overflow-hidden bg-theme-surface shrink-0">
                           {product.images[0] ? (
                             <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-600">
+                            <div className="w-full h-full flex items-center justify-center text-theme-mute">
                               <Image size={16} />
                             </div>
                           )}
                         </div>
                         <div>
-                          <p className="font-medium text-white text-sm line-clamp-1">{product.name}</p>
-                          {product.isAffiliate && <span className="text-xs text-blue-400">Affilié</span>}
+                          <p className="font-medium text-theme text-sm line-clamp-1">{product.name}</p>
+                          {product.isAffiliate && <span className="text-xs text-blue-500">Affilié</span>}
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-400 capitalize">{product.category}</td>
+                    <td className="px-4 py-3 text-sm text-theme-sec capitalize">{product.category}</td>
                     <td className="px-4 py-3 text-sm font-semibold text-[#C9A84C]">{formatPrice(product.price, 'HTG')}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-sm font-medium ${product.stock === 0 ? 'text-red-400' : product.stock <= 5 ? 'text-yellow-400' : 'text-green-400'}`}>
+                      <span className={`text-sm font-medium ${product.stock === 0 ? 'text-red-500' : product.stock <= 5 ? 'text-amber-500' : 'text-emerald-500'}`}>
                         {product.stock}
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <button onClick={() => handleToggle(product)} className="text-gray-500 hover:text-[#C9A84C] transition-colors">
+                      <button onClick={() => handleToggle(product)} className="text-theme-mute hover:text-[#C9A84C] transition-colors">
                         {product.isActive
-                          ? <ToggleRight size={24} className="text-green-400" />
-                          : <ToggleLeft size={24} className="text-gray-600" />
+                          ? <ToggleRight size={24} className="text-emerald-500" />
+                          : <ToggleLeft size={24} className="text-theme-mute" />
                         }
                       </button>
                     </td>
@@ -161,14 +170,14 @@ export default function AdminProducts() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => openEdit(product)}
-                          className="text-gray-500 hover:text-[#C9A84C] transition-colors"
+                          className="text-theme-mute hover:text-[#C9A84C] transition-colors"
                           data-testid={`edit-product-${product.id}`}
                         >
                           <Edit2 size={15} />
                         </button>
                         <button
                           onClick={() => handleDelete(product.id)}
-                          className="text-gray-500 hover:text-red-400 transition-colors"
+                          className="text-theme-mute hover:text-red-500 transition-colors"
                           data-testid={`delete-product-${product.id}`}
                         >
                           <Trash2 size={15} />
@@ -190,20 +199,20 @@ export default function AdminProducts() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
             onClick={(e) => e.target === e.currentTarget && setShowModal(false)}
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#111] border border-[#1F1F1F] rounded-3xl p-6 w-full max-w-xl max-h-[90vh] overflow-y-auto"
+              className="bg-theme-card border border-theme rounded-3xl p-6 w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl"
             >
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-semibold text-white text-lg">
+                <h3 className="font-semibold text-theme text-lg">
                   {editingProduct.id ? 'Modifier le produit' : 'Nouveau produit'}
                 </h3>
-                <button onClick={() => setShowModal(false)} className="text-gray-500 hover:text-white">
+                <button onClick={() => setShowModal(false)} className="text-theme-mute hover:text-theme transition-colors">
                   <X size={20} />
                 </button>
               </div>
@@ -216,7 +225,7 @@ export default function AdminProducts() {
                   data-testid="input-product-name"
                 />
                 <div>
-                  <label className="text-sm font-medium text-gray-300 mb-1.5 block">Description</label>
+                  <label className="text-sm font-medium text-theme-sec mb-1.5 block">Description</label>
                   <textarea
                     value={editingProduct.description || ''}
                     onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
@@ -256,15 +265,15 @@ export default function AdminProducts() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-300 mb-1.5 block">Catégorie</label>
+                  <label className="text-sm font-medium text-theme-sec mb-1.5 block">Catégorie</label>
                   <select
                     value={editingProduct.category || 'electronique'}
                     onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
                     className="input-dark w-full px-4 py-3 rounded-xl text-sm"
                     data-testid="select-product-category"
                   >
-                    {['electronique', 'mode', 'beaute', 'informatique', 'maison', 'sport'].map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                    {CATEGORIES.map((c) => (
+                      <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
                     ))}
                   </select>
                 </div>
@@ -275,7 +284,12 @@ export default function AdminProducts() {
                   placeholder="https://..."
                   data-testid="input-product-image"
                 />
-                <div className="flex items-center gap-4">
+                {editingProduct.images?.[0] && (
+                  <div className="w-full h-32 rounded-xl overflow-hidden bg-theme-surface">
+                    <img src={editingProduct.images[0]} alt="preview" className="w-full h-full object-cover" onError={() => {}} />
+                  </div>
+                )}
+                <div className="flex items-center gap-6">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
@@ -283,7 +297,7 @@ export default function AdminProducts() {
                       onChange={(e) => setEditingProduct({ ...editingProduct, isAffiliate: e.target.checked })}
                       className="w-4 h-4 accent-[#C9A84C]"
                     />
-                    <span className="text-sm text-gray-300">Produit affilié</span>
+                    <span className="text-sm text-theme-sec">Produit affilié</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -292,7 +306,16 @@ export default function AdminProducts() {
                       onChange={(e) => setEditingProduct({ ...editingProduct, featured: e.target.checked })}
                       className="w-4 h-4 accent-[#C9A84C]"
                     />
-                    <span className="text-sm text-gray-300">Vedette</span>
+                    <span className="text-sm text-theme-sec">Vedette</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editingProduct.isActive !== false}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, isActive: e.target.checked })}
+                      className="w-4 h-4 accent-[#C9A84C]"
+                    />
+                    <span className="text-sm text-theme-sec">Actif</span>
                   </label>
                 </div>
                 {editingProduct.isAffiliate && (
